@@ -1,0 +1,27 @@
+version: '2'
+services:
+
+  web:
+    restart: always
+    image: sharelatex
+    depends_on:
+      - mongo
+      - redis
+    volumes:
+      - ./data:/var/lib/sharelatex
+    environment:
+      SHARELATEX_MONGO_URL: mongodb://mongo/sharelatex
+      SHARELATEX_REDIS_HOST: redis
+
+
+  mongo:
+    restart: always
+    image: mongo
+    volumes:
+      - ./mongo:/data/db
+
+  redis:
+    restart: always
+    image: redis:alpine
+    volumes:
+      - ./redis:/data
